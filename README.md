@@ -1,2 +1,2 @@
-# aimlops_m34partb_cicd_ecr_lambda
-Project 2 for Aimlops CICD using Github Actions, ECR and deployment to Lambda
+# aimlops_m34partb_simple_cicd
+Simple CI/CD pipeline for Iris Classification Model using Random Forest and Optuna for HyperParameter Tuning
