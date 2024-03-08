@@ -1,3 +1,4 @@
+import json
 import sys
 from pathlib import Path
 file = Path(__file__).resolve()
@@ -9,4 +10,8 @@ from iris_model.predict import make_prediction
 def handler(event, context):
     print("started prediction for the iris parameters in event : ", event)
     result = make_prediction(input_data=event)
-    return result
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        'body': json.dumps(result)
+    }
