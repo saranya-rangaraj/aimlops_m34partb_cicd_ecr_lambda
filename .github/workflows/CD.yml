@@ -1,0 +1,26 @@
+name: CD Pipeline
+
+# Only trigger, when the build workflow succeeded i.e. CI Pipeline
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+	aws-access-key-id: ${{ secret.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secret.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Update lambda function
+      env:
+        ECR_ENDPOINT: ${{ secrets.ECR_ENDPOINT }}
+      run: |
+        aws lambda update-function-code --function-name irislambda --image-uri $ECR_ENDPOINT/aimlops-iris-classification-repo:latest
